@@ -39,16 +39,16 @@ services:
 #    depends_on:
 #      - postgresdb
 
-  todobackend-django:             #NICHT FERTIG
-    image: #WHAT IS DIS
-    networks:
-      - todonet
+  todobackend-django:
     build:
       context: ./todobackend_django
       dockerfile: Dockerfile
+    networks:
+      - todonet
     ports:
-      - "8080:8080"
-    restart: unless stopped
+      - "8000:8000"  
+    restart: unless-stopped
+
 
   todoui-thymeleaf:
     image: todoui:otel

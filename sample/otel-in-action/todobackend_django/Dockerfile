@@ -1,0 +1,1 @@
+# python manage.py runserver 8080 muss glaub rein oder so
