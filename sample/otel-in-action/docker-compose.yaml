@@ -5,16 +5,16 @@ services:
 
 ### APPLICATION PART
 
-  postgresdb:
-    image: postgres
-    networks:
-      - todonet
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=matthias
-      - POSTGRES_DB=mydb
+  #postgresdb:
+  #  image: postgres
+  #  networks:
+  #    - todonet
+  #  ports:
+  #    - 5432:5432
+  #  environment:
+  #    - POSTGRES_PASSWORD=password
+  #    - POSTGRES_USER=matthias
+  #    - POSTGRES_DB=mydb
 
 
 #  todobackend-springboot:
@@ -61,51 +61,51 @@ services:
       - OTEL_RESOURCE_ATTRIBUTES=service.name=todobackend-springboot
       - OTEL_METRICS_EXPORTER=otlp,logging-otlp
       - OTEL_LOGS_EXPORTER=none
-    depends_on:
-      - postgresdb
+    #depends_on:
+    #  - postgresdb
 
 
-  todoui-thymeleaf:
-    image: maeddes/todoui-thymeleaf:v2404
-    build:
-      context: ./todoui-thymeleaf
-      dockerfile: Dockerfile #-multistage
-    networks:
-      - todonet
-    ports:
-      - "8090:8090"
-    environment:
-      # - BACKEND_URL=http://todobackend-springboot:8080/          ÄNDERN
-      - OTEL_EXPORTER_OTLP_ENDPOINT=otelcol:4317
-      - OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=otelcol:4317
-
-      - OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
-      - OTEL_EXPORTER_OTLP_METRICS_PROTOCOL=grpc
-      - OTEL_RESOURCE_ATTRIBUTES=service.name=todoui-thymeleaf
-      - OTEL_METRICS_EXPORTER=otlp,logging-otlp
-      - OTEL_LOGS_EXPORTER=none
-
-  todoui-flask:
-    image: maeddes/todoui-flask:v2404
-    build:
-      context: ./todoui-flask
-    networks:
-      - todonet
-    ports:
-      - "5001:5000"
-    environment:
+ # todoui-thymeleaf:
+ #   image: maeddes/todoui-thymeleaf:v2404
+ #   build:
+ #     context: ./todoui-thymeleaf
+ #     dockerfile: Dockerfile #-multistage
+ #   networks:
+ #     - todonet
+ #   ports:
+ #     - "8090:8090"
+ #   environment:
+ #     # - BACKEND_URL=http://todobackend-springboot:8080/          ÄNDERN
+ #     - OTEL_EXPORTER_OTLP_ENDPOINT=otelcol:4317
+ #     - OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=otelcol:4317
+#
+#      - OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
+#      - OTEL_EXPORTER_OTLP_METRICS_PROTOCOL=grpc
+#      - OTEL_RESOURCE_ATTRIBUTES=service.name=todoui-thymeleaf
+#      - OTEL_METRICS_EXPORTER=otlp,logging-otlp
+#      - OTEL_LOGS_EXPORTER=none
+#
+#  todoui-flask:
+#    image: maeddes/todoui-flask:v2404
+#    build:
+#      context: ./todoui-flask
+#    networks:
+#      - todonet
+#    ports:
+#      - "5001:5000"
+#    environment:
       #- BACKEND_URL=http://todobackend-springboot:8080/todos/        ÄNDERN
-      - OTEL_EXPORTER_OTLP_ENDPOINT=otelcol:4317
+#      - OTEL_EXPORTER_OTLP_ENDPOINT=otelcol:4317
 
-      - OTEL_RESOURCE_ATTRIBUTES=service.name=todoui-flask
-      - OTEL_METRICS_EXPORTER=otlp
-
-  loadgenerator:
-    image: generator:v0.1
-    build:
-      context: ./loadgenerator
-    networks:
-      - todonet
+#      - OTEL_RESOURCE_ATTRIBUTES=service.name=todoui-flask
+#      - OTEL_METRICS_EXPORTER=otlp
+#
+#  loadgenerator:
+#    image: generator:v0.1
+#    build:
+#      context: ./loadgenerator
+#    networks:
+#      - todonet
 
 
 # ### OTEL PART
