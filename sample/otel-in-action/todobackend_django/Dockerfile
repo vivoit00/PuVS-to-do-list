@@ -1,17 +1,18 @@
 # python manage.py runserver 8080 muss glaub rein oder so
 FROM python:3.8-slim
 
-# # Arbeitsverzeichnis im Container festlegen
-# WORKDIR /app
-# 
-# # Abhängigkeiten installieren
-# COPY requirements.txt .
-# RUN pip install -r requirements.txt
-# 
-# # Kopieren des Django-Projektcodes
-# COPY . /app
+    # Arbeitsverzeichnis im Container festlegen
+WORKDIR /app
 
+# Abhängigkeiten installieren
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Kopieren des gesamten Django-Projektcodes ins Arbeitsverzeichnis
+COPY . /app
+
+# Port freigeben, auf dem der Server läuft
 EXPOSE 8000
 
-# Start Django Server 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Befehl zum Starten des Django-Servers
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]    
