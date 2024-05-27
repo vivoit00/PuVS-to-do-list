@@ -13,7 +13,7 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=matthias
+      - POSTGRES_USER=postgres
       - POSTGRES_DB=mydb
 
   todobackend-django:
@@ -26,17 +26,8 @@ services:
     ports:
       - "8000:8000"  
     restart: unless-stopped
-
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-#     - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318 # http endpoint
-      - OTEL_EXPORTER_OTLP_ENDPOINT=otelcol:4317
-      - OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=otelcol:4317
-      - OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
-      - OTEL_EXPORTER_OTLP_METRICS_PROTOCOL=grpc
-      - OTEL_RESOURCE_ATTRIBUTES=service.name=todobackend-springboot
-      - OTEL_METRICS_EXPORTER=otlp,logging-otlp
-      - OTEL_LOGS_EXPORTER=none
+#    environment:
+#     Können wir immer noch wiederherstellen, wenn wir sie brauchen
     depends_on:
       - postgresdb
 
