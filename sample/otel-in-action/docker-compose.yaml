@@ -30,6 +30,8 @@ services:
 #     Können wir immer noch wiederherstellen, wenn wir sie brauchen
     depends_on:
       - postgresdb
+    volumes:
+      - ./todobackend_django:/app  # Bind mount your local code to the container
 
 
   todoui-thymeleaf:

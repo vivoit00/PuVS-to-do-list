@@ -24,3 +24,5 @@ DATABASES = {
     }
 
 }
+
+DEBUG = True # For hot reloading
