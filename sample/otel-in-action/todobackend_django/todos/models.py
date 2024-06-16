@@ -1,7 +1,7 @@
 from django.db import models
 
 class Todo(models.Model):
-    text = models.CharField(max_length=255)
+    todo = models.CharField(max_length=255, primary_key=True)
 
     def __str__(self):
-        return self.text
+        return self.todo 

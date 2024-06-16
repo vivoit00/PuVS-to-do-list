@@ -3,8 +3,6 @@ networks:
 
 services:
 
-### APPLICATION PART
-
   postgresdb:
     image: postgres
     networks:
@@ -17,35 +15,32 @@ services:
       - POSTGRES_DB=mydb
 
   todobackend-django:
-
     build:
       context: ./todobackend_django
       dockerfile: Dockerfile
     networks:
       - todonet
     ports:
-      - "8000:8000"  
+      - "8080:8080"
     restart: unless-stopped
-#    environment:
-#     Können wir immer noch wiederherstellen, wenn wir sie brauchen
     depends_on:
       - postgresdb
-
+    volumes:
+      - ./todobackend_django:/app
 
   todoui-thymeleaf:
     image: maeddes/todoui-thymeleaf:v2404
     build:
       context: ./todoui-thymeleaf
-      dockerfile: Dockerfile #-multistage
+      dockerfile: Dockerfile
     networks:
       - todonet
     ports:
       - "8090:8090"
     environment:
-      # - BACKEND_URL=http://todobackend-springboot:8080/          ÄNDERN
+      - BACKEND_URL=http://todobackend-django:8080/
       - OTEL_EXPORTER_OTLP_ENDPOINT=otelcol:4317
       - OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=otelcol:4317
-
       - OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=grpc
       - OTEL_EXPORTER_OTLP_METRICS_PROTOCOL=grpc
       - OTEL_RESOURCE_ATTRIBUTES=service.name=todoui-thymeleaf
@@ -61,9 +56,8 @@ services:
     ports:
       - "5001:5000"
     environment:
-      #- BACKEND_URL=http://todobackend-springboot:8080/todos/        ÄNDERN
+      - BACKEND_URL=http://todobackend-django:8080/     
       - OTEL_EXPORTER_OTLP_ENDPOINT=otelcol:4317
-
       - OTEL_RESOURCE_ATTRIBUTES=service.name=todoui-flask
       - OTEL_METRICS_EXPORTER=otlp
 
