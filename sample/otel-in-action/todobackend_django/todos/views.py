@@ -12,7 +12,11 @@ def todo_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = TodoSerializer(data=request.data)
+        if 'todo' in request.data:
+            serializer = TodoSerializer(data={'todo': request.data['todo']})
+        else:
+            serializer = TodoSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
