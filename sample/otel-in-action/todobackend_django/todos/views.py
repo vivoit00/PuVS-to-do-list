@@ -4,18 +4,16 @@ from rest_framework.response import Response
 from .models import Todo
 from .serializers import TodoSerializer
 
+# views.py
+
 @api_view(['GET', 'POST'])
 def todo_list(request):
     if request.method == 'GET':
-        todos = Todo.objects.all()
-        serializer = TodoSerializer(todos, many=True)
-        return Response(serializer.data)
-
+        todos = Todo.objects.all().values_list('todo', flat=True) 
+        return Response(list(todos))
+    
     elif request.method == 'POST':
-        if 'todo' in request.data:
-            serializer = TodoSerializer(data={'todo': request.data['todo']})
-        else:
-            serializer = TodoSerializer(data=request.data)
+        serializer = TodoSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -25,10 +23,11 @@ def todo_list(request):
 @api_view(['DELETE'])
 def todo_detail(request, pk):
     try:
-        todo = Todo.objects.get(todo=pk)
+        todo = Todo.objects.get(pk=pk)
     except Todo.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
         todo.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
