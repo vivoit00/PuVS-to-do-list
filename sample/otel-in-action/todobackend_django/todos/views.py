@@ -25,7 +25,7 @@ def todo_list(request):
 @api_view(['DELETE'])
 def todo_detail(request, pk):
     try:
-        todo = Todo.objects.get(pk=pk)
+        todo = Todo.objects.get(todo=pk)
     except Todo.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
