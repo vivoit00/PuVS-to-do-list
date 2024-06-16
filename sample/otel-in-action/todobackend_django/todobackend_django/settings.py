@@ -38,3 +38,6 @@ TEMPLATES = [
         },
     },
 ]
+
+APPEND_SLASH = False
+
