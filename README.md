@@ -14,7 +14,6 @@ Application with a Thymeleaf Frontend, Django Backend and PostgreSQL Database.
     ```sh
     git clone https://github.com/vivoit00/PuVS-to-do-list 
     cd PuVS-to-do-list/sample/otel-in-action
-    git checkout develop
     ```
 
 2. Build and run the containers:
